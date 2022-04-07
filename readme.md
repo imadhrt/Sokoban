@@ -5,4 +5,4 @@
 
  ## Auteur
 
- Ce jeu vous est proposé par 'votre nom ici'.
+ Ce jeu vous est proposé par 'Imad'.
