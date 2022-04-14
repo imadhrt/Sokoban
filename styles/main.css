@@ -3,12 +3,17 @@ body{
     display: grid;
     grid-template-areas: "header"
                           "main"
-                          "footer"
+                          "footer";
+  
+                     
+                          
 }
 
 header{
     grid-area: header;
     border: grey solid 1px;
+    background-color: rgb(89, 154, 218);
+   
 } 
 header h1{
     text-align: center;
@@ -62,10 +67,9 @@ footer {
     padding-top:50px;
     height:50px;
     grid-area: footer;
-
-
-
 }
-.line0,.line1,.line2,.line3,.line4,.line5,.line6,.line7,.line8,.line9,.line10,.line11{
+
+.line{
     display: flex;
 }
+
