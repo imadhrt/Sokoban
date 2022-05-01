@@ -2,8 +2,8 @@
 
 console.log("hello world");
 /**
- * displays the level character by the squares and his type corresponding.
- * @param {number} level is level number
+ * displays the level character by the square and his type corresponding.
+ * @param {number} level is level number.
  */
 
 function buildLevel(level) {
