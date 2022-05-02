@@ -42,6 +42,34 @@ function buildLevel(level) {
     player[1].remove();//supprime un player
     console.log(levels[level]);
 }
+
+/**
+ * renvoye la position du joueur dans le jeu
+ * @typedef{object} pos est une position à l'ordonnée y et à l'abcisse x
+ * @property{number} x est la ligne de la position.
+ * @property{number} y est la colonne de la position .
+ * @returns la position du joueur dans le jeu
+ */
+function getPlayerPosition() {
+    const a = $(".player").index();
+    const o = $(".player").parent()
+        .index();
+    return {x: a, y: o};
+}
+/**
+ * renvoye la case du jeu qui se trouve à la position donée
+ * @property{number} x est la ligne de la position.
+ * @property{number} y est la colonne de la position .
+ * @param{pos}pos est la position du joueur
+ * @returns la case du jeu qui se trouve à la position donée
+ * en argument
+ */
+function getSquareAt(pos) {
+    $("#world").children()
+        .eq(pos.x)
+        .children()
+        .eq(pos.y);
+}
 window.onload = function () {
     buildLevel(0);
 };
