@@ -15,7 +15,8 @@ function buildLevel(level) {
             switch (levels[level].map[ligne][colonne]) {//vérifie chaque caractère de la map et asssigne la classe adéquate(couleur de fond)
             case "🧍".charAt(0): //bizarre que le bonhomme prend 2 squares et je ne sais pas pourquoi ça ne donne pas le même résultat quand je rassemble les 2 premier case
                 //par des virgules(case "🧍".charAt(0),"🧍".charAt(1):).
-                $(`.${ligne}`).append("<div class=\"player square floor\"></div>");
+                $(`.${ligne}`).append("<div class=\"player square floor\"></div>");//rajouter floor car quand on va remove player, on aura plus de classe donc ca met en blanc
+                //alors que ça doit mettre la classe sol
                 break;
             case "🧍".charAt(1):
                 $(`.${ligne}`).append("<div class=\"player square floor\"></div>");
@@ -24,10 +25,10 @@ function buildLevel(level) {
                 $(`.${ligne}`).append("<div class=\"target square\"></div>");
                 break;
             case "#":
-                $(`.${ligne}`).append("<div class=\"box square\"></div>");
+                $(`.${ligne}`).append("<div class=\"box square floor\"></div>");
                 break;
             case "@":
-                $(`.${ligne}`).append("<div class=\"boxWithTarget square\"></div>");
+                $(`.${ligne}`).append("<div class=\"boxWithTarget square floor \"></div>");
                 break;
             case " ":
                 $(`.${ligne}`).append("<div class=\"floor square\"></div>");
@@ -70,6 +71,11 @@ function getSquareAt(pos) {
         .children()
         .eq(pos.x);
 }
+/**
+ * Déplacement libre
+ * Appel à la méthode moveFree
+ *  permet de déplacer le joueur d'une case en fonction des touches directionnelles
+ */
 
 function move() {
     moveFree(0, 1, "ArrowDown");
@@ -80,17 +86,22 @@ function move() {
 
 // }
 /**
- * @param {number} abcisse
- * @param {number} ordonnee
- * @param {string} direction
+ * Méthode simplifié pour le deplacement libre
+ * permet de déplacer le joueur d'une case en fonction des touches directionnelles
+ * @param {number} abcisse est la ligne de la position où il il veut y'aller
+ * @param {number} ordonnee est la colonne de la position où il veut y'aller
+ * @param {string} direction est la direction du joueur où il veut y'aller
  */
 function moveFree(abcisse, ordonnee, direction) {
-    $(document).on("keydown", function(event) {
+    $(document).on("keydown", function (event) {//quand on touche le clavier,il
+        //verifie la fonction
         const positionPlayerAbs = getPlayerPosition().x;
         const positionPlayerOrd = getPlayerPosition().y;
-        if (event.key === direction) {
-            getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
-            getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+        if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall")) {
+            if (event.key === direction) {
+                getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
+                getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+            }
         }
     });
 }
