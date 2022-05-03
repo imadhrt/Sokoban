@@ -28,7 +28,7 @@ function buildLevel(level) {
                 $(`.${ligne}`).append("<div class=\"box square floor\"></div>");
                 break;
             case "@":
-                $(`.${ligne}`).append("<div class=\"boxWithTarget square floor \"></div>");
+                $(`.${ligne}`).append("<div class=\"boxWithTarget square\"></div>");
                 break;
             case " ":
                 $(`.${ligne}`).append("<div class=\"floor square\"></div>");
@@ -47,8 +47,8 @@ function buildLevel(level) {
 /**
  * renvoye la position du joueur dans le jeu
  * @typedef{object} pos est une position à l'ordonnée y et à l'abcisse x
- * @property{number} x est la ligne de la position.
- * @property{number} y est la colonne de la position .
+ * @property{number} x est la colonne de la position.
+ * @property{number} y est la ligne de la position .
  * @returns la position du joueur dans le jeu
  */
 function getPlayerPosition() {
@@ -97,10 +97,22 @@ function moveFree(abcisse, ordonnee, direction) {
         //verifie la fonction
         const positionPlayerAbs = getPlayerPosition().x;
         const positionPlayerOrd = getPlayerPosition().y;
-        if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall")) {
+        if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall") &&
+        !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
             if (event.key === direction) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+            }
+        }
+
+        if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
+        !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
+        !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
+            if (event.key === direction) {
+                getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
+                getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+                getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
+                getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
             }
         }
     });

@@ -32,21 +32,22 @@ header h1{
 .floor{
     background-color: blue;
 }
-.box{
-    background-color: yellow;
-}
 .target{
     background-color: green;
-}
-.boxWithTarget{
-    background-color: red;
 }
 .wall{
     background-color: grey;
 }
+.box{
+    background-color: yellow;
+}
+.boxWithTarget{
+    background-color: red;
+}
 .player{
     background-color: violet;
 }
+
 
 
 #texteFooter {
