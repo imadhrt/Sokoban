@@ -15,10 +15,10 @@ function buildLevel(level) {
             switch (levels[level].map[ligne][colonne]) {//vérifie chaque caractère de la map et asssigne la classe adéquate(couleur de fond)
             case "🧍".charAt(0): //bizarre que le bonhomme prend 2 squares et je ne sais pas pourquoi ça ne donne pas le même résultat quand je rassemble les 2 premier case
                 //par des virgules(case "🧍".charAt(0),"🧍".charAt(1):).
-                $(`.${ligne}`).append("<div class=\"player square\"></div>");
+                $(`.${ligne}`).append("<div class=\"player square floor\"></div>");
                 break;
             case "🧍".charAt(1):
-                $(`.${ligne}`).append("<div class=\"player square\"></div>");
+                $(`.${ligne}`).append("<div class=\"player square floor\"></div>");
                 break;
             case "x":
                 $(`.${ligne}`).append("<div class=\"target square\"></div>");
@@ -51,8 +51,8 @@ function buildLevel(level) {
  * @returns la position du joueur dans le jeu
  */
 function getPlayerPosition() {
-    const a = $(".player").index();
-    const o = $(".player").parent()
+    const a = $(".player").index();//colonne des lignes
+    const o = $(".player").parent()//ligne des parents
         .index();
     return {x: a, y: o};
 }
@@ -65,11 +65,36 @@ function getPlayerPosition() {
  * en argument
  */
 function getSquareAt(pos) {
-    $("#world").children()
-        .eq(pos.x)
+    return $("#world").children()
+        .eq(pos.y)
         .children()
-        .eq(pos.y);
+        .eq(pos.x);
+}
+
+function move() {
+    moveFree(0, 1, "ArrowDown");
+    moveFree(0, -1, "ArrowUp");
+    moveFree(1, 0, "ArrowRight");
+    moveFree(-1, 0, "ArrowLeft");
+}
+
+// }
+/**
+ * @param {number} abcisse
+ * @param {number} ordonnee
+ * @param {string} direction
+ */
+function moveFree(abcisse, ordonnee, direction) {
+    $(document).on("keydown", function(event) {
+        const positionPlayerAbs = getPlayerPosition().x;
+        const positionPlayerOrd = getPlayerPosition().y;
+        if (event.key === direction) {
+            getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
+            getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+        }
+    });
 }
 window.onload = function () {
     buildLevel(0);
+    move();
 };

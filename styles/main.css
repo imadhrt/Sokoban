@@ -29,9 +29,6 @@ header h1{
     width: 30px;
 
 }
-.player{
-    background-color: violet;
-}
 .box{
     background-color: yellow;
 }
@@ -46,6 +43,9 @@ header h1{
 }
 .floor{
     background-color: blue;
+}
+.player{
+    background-color: violet;
 }
 
 
