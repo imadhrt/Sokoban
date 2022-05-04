@@ -73,9 +73,15 @@ footer {
 .line{
     display: flex;
 }
-#mouvement{
-    border:green 4px solid;
-    width: 40px;
-    height: 40px;
-}
+#compteur{
+    color: black;
+    margin: auto;
+     padding-bottom: 40px;
+
+    }
+    #niveau{
+        font-size:30px;
+    }
+
+
 

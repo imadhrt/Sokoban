@@ -86,8 +86,8 @@ function move() {
 
 // }
 /**
- * Méthode simplifié pour le deplacement libre
- * permet de déplacer le joueur d'une case en fonction des touches directionnelles
+ * Méthode simplifié pour le deplacement du joueur et le déplacement de la boite
+ * permet de déplacer le joueur d'une case en fonction des touches directionnelles et les boites
  * @param {number} abcisse est la colonne de la position où il il veut y'aller
  * @param {number} ordonnee est la ligne de la position où il veut y'aller
  * @param {string} direction est la direction du joueur où il veut y'aller
@@ -102,7 +102,7 @@ function moveFree(abcisse, ordonnee, direction) {
             if (event.key === direction) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
-                incrMoves();
+                incrMoves();//méthode qui incrémente le mouvement
             }
         }
 
@@ -114,20 +114,63 @@ function moveFree(abcisse, ordonnee, direction) {
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
                 getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
-                incrMoves();
+                incrMoves();//méthode qui incrémente le mouvement
+            }
+        }
+        $("#level").text(niveau);
+        if (allOnTarget()) {//on appuye sur l'espace que si toutes les boites sont sur une cible
+            finishLevel();
+            if (event.key === " ") {
+                initLevel();
+                $(".affichage").text("");//Pour eviter que ça affiche le texte tout le temps(de la méthode finishLevel)
             }
         }
     });
 }
-let i = 0;//variable globale pour incrémenter
+let compteur = 0;//variable globale pour incrémenter
 /**
  * permet d'incrémenter le compteur de mouvement
  */
 
 function incrMoves() {
-    $("#mouvement").text(++i);
+    $("#mouvement").text(++compteur);
 }
+/**
+ * Vérifie si toutes les boites sont sur une cible
+ * @returns true st toutes les boites sont sur une cible
+ * sinon false
+ */
+function allOnTarget() {
+    const boxTarget = document.getElementsByClassName("target");
+    for (let i = 0; i < boxTarget.length; i++) {
+        if (!$(boxTarget[i]).hasClass("box")) {
+            return false;
+        }
+    }
+    return true;
+}
+/**
+ *permet qu'une fois la touche espace est enfoncé, on passe
+ de niveau suivant
+ */
+function finishLevel() {
+    if (allOnTarget()) {
+        $(".affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
+    }
+}
+let niveau = 0;//variable globale pour incrémenteur le move
+/**
+ * permet de préparer le niveau suivant et remet le compteur
+ * de mouvement à 0
+ */
+function initLevel() {
+    $("#world").children()
+        .remove();
+    buildLevel(++niveau);
+    compteur = 0;
+}
+
 window.onload = function () {
-    buildLevel(0);
+    buildLevel(niveau);
     move();
 };
