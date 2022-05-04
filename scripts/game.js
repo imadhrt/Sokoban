@@ -28,7 +28,7 @@ function buildLevel(level) {
                 $(`.${ligne}`).append("<div class=\"box square floor\"></div>");
                 break;
             case "@":
-                $(`.${ligne}`).append("<div class=\"boxWithTarget square\"></div>");
+                $(`.${ligne}`).append("<div class=\"box target square\"></div>");
                 break;
             case " ":
                 $(`.${ligne}`).append("<div class=\"floor square\"></div>");
@@ -88,8 +88,8 @@ function move() {
 /**
  * Méthode simplifié pour le deplacement libre
  * permet de déplacer le joueur d'une case en fonction des touches directionnelles
- * @param {number} abcisse est la ligne de la position où il il veut y'aller
- * @param {number} ordonnee est la colonne de la position où il veut y'aller
+ * @param {number} abcisse est la colonne de la position où il il veut y'aller
+ * @param {number} ordonnee est la ligne de la position où il veut y'aller
  * @param {string} direction est la direction du joueur où il veut y'aller
  */
 function moveFree(abcisse, ordonnee, direction) {
@@ -98,24 +98,34 @@ function moveFree(abcisse, ordonnee, direction) {
         const positionPlayerAbs = getPlayerPosition().x;
         const positionPlayerOrd = getPlayerPosition().y;
         if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall") &&
-        !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
+            !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
             if (event.key === direction) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
+                incrMoves();
             }
         }
 
         if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
-        !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
-        !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
+            !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
+            !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
             if (event.key === direction) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
                 getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
+                incrMoves();
             }
         }
     });
+}
+let i = 0;//variable globale pour incrémenter
+/**
+ * permet d'incrémenter le compteur de mouvement
+ */
+
+function incrMoves() {
+    $("#mouvement").text(++i);
 }
 window.onload = function () {
     buildLevel(0);

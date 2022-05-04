@@ -41,7 +41,7 @@ header h1{
 .box{
     background-color: yellow;
 }
-.boxWithTarget{
+.box.target{
     background-color: red;
 }
 .player{
@@ -72,5 +72,10 @@ footer {
 
 .line{
     display: flex;
+}
+#mouvement{
+    border:green 4px solid;
+    width: 40px;
+    height: 40px;
 }
 
