@@ -130,7 +130,7 @@ function moveFree(abcisse, ordonnee, direction) {
         // } else {
         //     $(".player").addClass("gauchePlayer");
         // }
-        $("#level").text(niveau);
+        $("#level").text(niveau);//affichage du level
         if (allOnTarget()) {//on appuye sur l'espace que si toutes les boites sont sur une cible
             finishLevel();
             if (event.key === " ") {
