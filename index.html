@@ -5,28 +5,33 @@
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/levels.js"></script>
     <meta charset="utf-8">
-    <link rel="icon" href="sprite/box.png" >
+    <link rel="icon" href="sprite/box.png" type="sprite/icon" >
     <title>Sokoban – Webg2</title>
     <link rel="stylesheet" href="styles/main.css">
-    <script src="scripts/game.js"></script>
+    
 </head>
 
 <body>
     <header>
         <h1>Sokobon</h1>
     </header>
-    <p>Coming soon...</p>
-    <p id="compteur">
+    <div>Coming soon...</p>
+        </div>
+<div id="compteur">
     <span>compteur:</span>
-    <span id="mouvement"></span>
-</p>
-<p id="niveau">level: <span id="level"></span></p>
+    <span id="mouvement">0</span>
+    <div id="niveau">level:<span id="level">0</span></div>
+    <div id="affichage"></div>
+    </div>
+
     <div id="world"></div>
-    <p class="affichage"></p>
     <p id="finJeu"></p>
+    <input id="recommmencer" type="button" value="recommencer">
     <footer>
         <p id="texteFooter">EL Harrouti Imad-G58132</p>
-    </footer>
+        <p id="createur">Les images ont été créées par Jeng-Long Jiang</p>
+         </footer>
+    <script src="scripts/game.js"></script>
 </body>
 
 </html>

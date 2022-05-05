@@ -77,68 +77,84 @@ function getSquareAt(pos) {
  *  permet de déplacer le joueur d'une case en fonction des touches directionnelles
  */
 
-function move() {
-    moveFree(0, 1, "ArrowDown");
-    moveFree(0, -1, "ArrowUp");
-    moveFree(1, 0, "ArrowRight");
-    moveFree(-1, 0, "ArrowLeft");
-}
-
 // }
 /**
  * Méthode simplifié pour le deplacement du joueur et le déplacement de la boite
  * permet de déplacer le joueur d'une case en fonction des touches directionnelles et les boites
- * @param {number} abcisse est la colonne de la position où il il veut y'aller
- * @param {number} ordonnee est la ligne de la position où il veut y'aller
- * @param {string} direction est la direction du joueur où il veut y'aller
+ * @param {JQuery.KeyDownEvent}event
  */
-function moveFree(abcisse, ordonnee, direction) {
-    $(document).on("keydown", function (event) {//quand on touche le clavier,il
-        //verifie la fonction
-        const positionPlayerAbs = getPlayerPosition().x;
-        const positionPlayerOrd = getPlayerPosition().y;
-        if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall") &&
-            !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
-            if (event.key === direction) {
+function move(event) {
+    //verifie la fonction
+    let abcisse = 0;
+    let ordonnee = 0;
+    switch (event.key) {
+    case "ArrowUp":
+        abcisse = 0;
+        ordonnee = -1;
+
+        break;
+    case "ArrowDown":
+        abcisse = 0;
+        ordonnee = 1;
+        break;
+    case "ArrowRight":
+        abcisse = 1;
+        ordonnee = 0;
+        break;
+    case "ArrowLeft":
+        abcisse = -1;
+        ordonnee = 0;
+        break;
+    case " ":
+        if (allOnTarget()) {
+            initLevel();
+            $("#affichage").text(""); //Pour eviter que ça affiche le texte tout le temps(de la méthode finishLevel)
+        }
+        break;
+
+    default:
+        return;
+    }
+    if (event.key !== " ") {
+        if (!allOnTarget()) {
+            $(getSquareAt(getPlayerPosition())).removeClass("basPlayer");
+            $(".player").removeClass("hautPlayer");
+            $(".player").removeClass("droitePlayer");
+            $(".player").removeClass("gauchePlayer");
+            const positionPlayerAbs = getPlayerPosition().x;
+            const positionPlayerOrd = getPlayerPosition().y;
+            if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall") &&
+                    !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
-                incrMoves();//méthode qui incrémente le mouvement
+                //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
+                incrMoves(); //méthode qui incrémente le mouvement
             }
-        }
 
-        if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
-            !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
-            !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
-            if (event.key === direction) {
+            if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
+                    !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
+                    !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
                 getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
-                incrMoves();//méthode qui incrémente le mouvement
+                //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
+                incrMoves(); //méthode qui incrémente le mouvement
+            }
+            if (event.key === "ArrowDown") {
+                $(".player").addClass("basPlayer");
+            } else if (event.key === "ArrowUp") {
+                $(".player").addClass("hautPlayer");
+            } else if (event.key === "ArrowRight") {
+                $(".player").addClass("droitePlayer");
+            } else if (event.key === "ArrowLeft") {
+                $(".player").addClass("gauchePlayer");
+            }
+            if (allOnTarget()) { //on appuye sur l'espace que si toutes les boites sont sur une cible
+                finishLevel();
             }
         }
-        // $(".player").removeClass("basPlayer");
-        // $(".player").removeClass("hautPlayer");
-        // $(".player").removeClass("droitePlayer");
-        // $(".player").removeClass("gauchePlayer");
-        // if (event.key === "ArrayDown") {
-        //     $(".player").addClass("basPlayer");
-        // } else if (event.key === "ArrowUp") {
-        //     $(".player").addClass("hautPlayer");
-        // } else if (event.key === "ArrowRight") {
-        //     $(".player").addClass("droitePlayer");
-        // } else {
-        //     $(".player").addClass("gauchePlayer");
-        // }
-        $("#level").text(niveau);//affichage du level
-        if (allOnTarget()) {//on appuye sur l'espace que si toutes les boites sont sur une cible
-            finishLevel();
-            if (event.key === " ") {
-                initLevel();
-                $(".affichage").text("");//Pour eviter que ça affiche le texte tout le temps(de la méthode finishLevel)
-            }
-        }
-    });
+    }
 }
 let compteur = 0;//variable globale pour incrémenter
 /**
@@ -168,25 +184,42 @@ function allOnTarget() {
  */
 function finishLevel() {
     if (allOnTarget()) {
-        $(".affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
+        $("#affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
         if (niveau === 6) {// si on est au dernier niveau et que toute les boites sont sur des cibles alors le jeu est terminé
             $("#finJeu").text("Vous avez fini tous les niveaux!Bien joué");
         }
     }
 }
-let niveau = 0;//variable globale pour incrémenteur le move
+let niveau = 0;//variable globale pour incrémenteur le move -1 car je commence 0;
 /**
  * permet de préparer le niveau suivant et remet le compteur
  * de mouvement à 0
  */
 function initLevel() {
+    compteur = 0;
     $("#world").children()
         .remove();
     buildLevel(++niveau);
+    $("#level").text(niveau);//affichage du level
+}
+
+/**
+ * permet de recommencer le niveau
+ */
+function recommencerUnNiveau() {
+    $("#world").children()
+        .remove();//pour sa supprime le niveau précedent
+    buildLevel(niveau);
     compteur = 0;
 }
 
-window.onload = function () {
-    buildLevel(niveau);
-    move();
-};
+/**
+ * quand la page est chargé
+ */
+$(() => {
+    buildLevel(0);
+    $(document).on("keydown", (event) => {
+        move(event);
+    });
+    $("#recommmencer").on("click", recommencerUnNiveau);
+});
