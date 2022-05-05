@@ -117,7 +117,7 @@ function move(event) {
     }
     if (event.key !== " ") {
         if (!allOnTarget()) {
-            $(getSquareAt(getPlayerPosition())).removeClass("basPlayer");
+            $(".player").removeClass("basPlayer");
             $(".player").removeClass("hautPlayer");
             $(".player").removeClass("droitePlayer");
             $(".player").removeClass("gauchePlayer");
