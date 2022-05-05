@@ -151,11 +151,14 @@ function allOnTarget() {
 }
 /**
  *permet qu'une fois la touche espace est enfoncé, on passe
- de niveau suivant
+ de niveau suivant et au dernier niveau on affiche la fin du jeu
  */
 function finishLevel() {
     if (allOnTarget()) {
         $(".affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
+        if (niveau === 6) {// si on est au dernier niveau et que toute les boites sont sur des cibles alors le jeu est terminé
+            $("#finJeu").text("Vous avez fini tous les niveaux!Bien joué");
+        }
     }
 }
 let niveau = 0;//variable globale pour incrémenteur le move
