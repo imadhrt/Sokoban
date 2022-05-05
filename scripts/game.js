@@ -139,6 +139,7 @@ function move(event) {
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
                 getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
                 //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
+
                 incrMoves(); //méthode qui incrémente le mouvement
             }
             if (event.key === "ArrowDown") {
@@ -186,7 +187,7 @@ function finishLevel() {
     if (allOnTarget()) {
         $("#affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
         if (niveau === 6) {// si on est au dernier niveau et que toute les boites sont sur des cibles alors le jeu est terminé
-            $("#finJeu").text("Vous avez fini tous les niveaux!Bien joué");
+            $("#finJeu").text("Vous avez fini tous le jeu!Bien joué");
         }
     }
 }
@@ -221,5 +222,37 @@ $(() => {
     $(document).on("keydown", (event) => {
         move(event);
     });
-    $("#recommmencer").on("click", recommencerUnNiveau);
+    $("#recommencer").on("click", recommencerUnNiveau);
+    /**
+ * // fenetre modal
+ */
+    const modal = document.getElementById("myModal");
+    if (!modal) {
+        throw error("excp");
+    }
+
+    // Get the button that opens the modal
+    const btn = document.getElementById("myBtn");
+    if (!btn) {
+        throw error("excp");
+    }
+    // Get the <span> element that closes the modal
+    const span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
 });
