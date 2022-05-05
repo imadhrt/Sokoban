@@ -117,6 +117,19 @@ function moveFree(abcisse, ordonnee, direction) {
                 incrMoves();//méthode qui incrémente le mouvement
             }
         }
+        // $(".player").removeClass("basPlayer");
+        // $(".player").removeClass("hautPlayer");
+        // $(".player").removeClass("droitePlayer");
+        // $(".player").removeClass("gauchePlayer");
+        // if (event.key === "ArrayDown") {
+        //     $(".player").addClass("basPlayer");
+        // } else if (event.key === "ArrowUp") {
+        //     $(".player").addClass("hautPlayer");
+        // } else if (event.key === "ArrowRight") {
+        //     $(".player").addClass("droitePlayer");
+        // } else {
+        //     $(".player").addClass("gauchePlayer");
+        // }
         $("#level").text(niveau);
         if (allOnTarget()) {//on appuye sur l'espace que si toutes les boites sont sur une cible
             finishLevel();

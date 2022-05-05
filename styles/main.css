@@ -31,21 +31,28 @@ header h1{
 }
 .floor{
     background-color: blue;
+    background-image: url(../sprite/ground.png);
 }
 .target{
     background-color: green;
+    background-image: url(../sprite/target.png);
 }
 .wall{
     background-color: grey;
+    background-image: url(../sprite/wall.png);
 }
 .box{
     background-color: yellow;
+    background-image: url(../sprite/box.png);
 }
 .box.target{
     background-color: red;
+    background-image: url(../sprite/box-on-target.png);
 }
 .player{
     background-color: violet;
+    background-image: url(../sprite/player-front.png);
+    
 }
 
 
@@ -82,4 +89,20 @@ footer {
     }
     #niveau{
         font-size:30px;
+    }
+    .droitePlayer{
+        background-image: url(../sprite/player-right.png);
+
+    }
+    .gauchePlayer{
+        background-image: url(../sprite/player-left.png);
+    }
+    .hautPlayer{
+        background-image: url(../sprite/player-up.png);
+    }
+    .basPlayer{
+        background-image: url(../sprite/player-front.png);
+    }
+    .gagnerPlayer{
+        background-image: url(../sprite/player-won.png);
     }
