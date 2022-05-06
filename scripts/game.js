@@ -211,6 +211,18 @@ function recommencerUnNiveau() {
     buildLevel(niveau);
     compteur = 0;
 }
+/**
+ *  décremente compteur
+ */
+function désincrémenter() {
+    $("#mouvement").text(--compteur);
+}
+function annulerMouvement() {
+    if (compteur > 0 && !allOnTarget()) {
+        désincrémenter();
+        const playerCourant = getPlayerPosition();
+    }
+}
 
 /**
  * quand la page est chargé

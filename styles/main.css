@@ -170,6 +170,7 @@ footer {
     font-weight: bold;
 
   }
-  #espacer{
-      margin-left: 50px;
+  #boutton{
+    justify-content: space-between;
+ margin: auto;
   }
