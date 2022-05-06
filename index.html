@@ -5,50 +5,54 @@
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/levels.js"></script>
     <meta charset="utf-8">
-    <link rel="icon" href="sprite/box.png" type="sprite/icon" >
+    <link rel="icon" href="sprite/box.png" type="sprite/icon">
     <title>Sokoban – Webg2</title>
     <link rel="stylesheet" href="styles/main.css">
-    
+
 </head>
 
 <body>
     <header>
-        <h1>Sokobon</h1>
+        <h1>Sokoban</h1>
     </header>
     <div>Coming soon...</p>
-        </div>
-<div id="compteur">
-    <span>compteur:</span>
-    <span id="mouvement">0</span>
-    <div id="niveau">level:<span id="level">0</span></div>
-    <div id="affichage"></div>
+    </div>
+    <div id="compteur">
+        <span>compteur:</span>
+        <span id="mouvement">0</span>
+        <div id="niveau">level:<span id="level">0</span></div>
+        <div id="affichage"></div>
     </div>
 
     <div id="world"></div>
     <p id="finJeu"></p>
-    <input id="recommencer" type="button" value="recommencer">
-         <!-- Trigger/Open The Modal  -->
-<button id="myBtn">Aide</button>
+    <span>
+       <button id="recommencer">Recommencer</button>
+        <!-- Trigger/Open The Modal  -->
+        <button id="myBtn">Aide</button>
+        <button id="annuler">Annuler</button>
+    </span>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p><img src="sprite/help-double.png" alt="help-double">
-    <img src="sprite/help-level.png" alt="help-level">
-    <img src="sprite/help-pull.png" alt="help-pull">
-    <img src="sprite/help-push.png" alt="help-push">
-    <img src="sprite/help-win.png" alt="help-win">
-  </div>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <span id="espacer"><img src="sprite/help-double.png" alt="help-double">
+                <img src="sprite/help-level.png" alt="help-level">
+                <img src="sprite/help-pull.png" alt="help-pull">
+                <img src="sprite/help-push.png" alt="help-push">
+                <img src="sprite/help-win.png" alt="help-win">
+            </span>
+        </div>
 
-</div>
+    </div>
     <footer>
-        
+
         <p id="texteFooter">EL Harrouti Imad-G58132</p>
         <p id="createur">Les images ont été créées par Jeng-Long Jiang</p>
-         </footer>
+    </footer>
     <script src="scripts/game.js"></script>
     <script src="scripts/state.js"></script>
 </body>

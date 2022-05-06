@@ -71,16 +71,11 @@ function getSquareAt(pos) {
         .children()
         .eq(pos.x);
 }
+const states = [];//état partiel du jeu
 /**
  * Déplacement libre
  * Appel à la méthode moveFree
  *  permet de déplacer le joueur d'une case en fonction des touches directionnelles
- */
-
-// }
-/**
- * Méthode simplifié pour le deplacement du joueur et le déplacement de la boite
- * permet de déplacer le joueur d'une case en fonction des touches directionnelles et les boites
  * @param {JQuery.KeyDownEvent}event
  */
 function move(event) {
@@ -117,14 +112,13 @@ function move(event) {
     }
     if (event.key !== " ") {
         if (!allOnTarget()) {
-            $(".player").removeClass("basPlayer");
-            $(".player").removeClass("hautPlayer");
-            $(".player").removeClass("droitePlayer");
-            $(".player").removeClass("gauchePlayer");
+            let stockState = undefined;
+            $(".player").removeClass("basPlayer hautPlayer droitePlayer gauchePlayer");
             const positionPlayerAbs = getPlayerPosition().x;
             const positionPlayerOrd = getPlayerPosition().y;
             if (!getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("wall") &&
                     !getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box")) {
+                stockState = new State({x: positionPlayerAbs, y: positionPlayerOrd});
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
                 //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
@@ -134,6 +128,7 @@ function move(event) {
             if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
                     !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("box") &&
                     !getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).hasClass("wall")) {
+                stockState = new State({x: positionPlayerAbs, y: positionPlayerOrd}, {x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee});
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
@@ -142,6 +137,7 @@ function move(event) {
 
                 incrMoves(); //méthode qui incrémente le mouvement
             }
+            states.push(stockState);
             if (event.key === "ArrowDown") {
                 $(".player").addClass("basPlayer");
             } else if (event.key === "ArrowUp") {
@@ -185,9 +181,11 @@ function allOnTarget() {
  */
 function finishLevel() {
     if (allOnTarget()) {
-        $("#affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
+        if (niveau < 6) {
+            $("#affichage").text("Appuyer sur ESPACE pour passer au niveau suivant");//affiche de message que si le niveau terminé
+        }
         if (niveau === 6) {// si on est au dernier niveau et que toute les boites sont sur des cibles alors le jeu est terminé
-            $("#finJeu").text("Vous avez fini tous le jeu!Bien joué");
+            $("#finJeu").text("Vous avez fini tout le jeu! Bien joué");
         }
     }
 }
@@ -228,13 +226,13 @@ $(() => {
  */
     const modal = document.getElementById("myModal");
     if (!modal) {
-        throw error("excp");
+        throw Error("exception");
     }
 
     // Get the button that opens the modal
     const btn = document.getElementById("myBtn");
     if (!btn) {
-        throw error("excp");
+        throw Error("exception");
     }
     // Get the <span> element that closes the modal
     const span = document.getElementsByClassName("close")[0];

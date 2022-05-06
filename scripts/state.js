@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * état partiel du jeu entre 2 mouvement
+ */
 class State {
     /**
  * @param {{x:number,y:number}} playerPosition est la position du player
