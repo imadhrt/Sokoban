@@ -42,13 +42,13 @@ header h1{
     background-color: grey;
     background-image: url(../sprite/wall.png);
 }
-.box{
-    background-color: yellow;
-    background-image: url(../sprite/box.png);
-}
 .box.target{
     background-color: red;
     background-image: url(../sprite/box-on-target.png);
+}
+.box{
+    background-color: yellow;
+    background-image: url(../sprite/box.png);
 }
 .player{
     background-color: violet;
@@ -173,4 +173,9 @@ footer {
   #boutton{
     justify-content: space-between;
  margin: auto;
+  }
+  
+  #niv{
+    font-size: 15px;
+  font-weight: bold; 
   }

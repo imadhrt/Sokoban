@@ -71,6 +71,9 @@ function getSquareAt(pos) {
         .children()
         .eq(pos.x);
 }
+/**
+ * @type Array <State>
+ */
 const states = [];//état partiel du jeu
 /**
  * Déplacement libre
@@ -80,6 +83,7 @@ const states = [];//état partiel du jeu
  */
 function move(event) {
     //verifie la fonction
+    $("#azerty").text("");
     let abcisse = 0;
     let ordonnee = 0;
     switch (event.key) {
@@ -121,8 +125,10 @@ function move(event) {
                 stockState = new State({x: positionPlayerAbs, y: positionPlayerOrd});
                 getSquareAt({x: positionPlayerAbs, y: positionPlayerOrd}).removeClass("player");
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).addClass("player");
-                //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
+                //j'avais un problème quand je mettais espace ça incrémentais donc j'ai mis une condition pour ne pas incrémenter
                 incrMoves(); //méthode qui incrémente le mouvement
+                states.push(stockState);
+                nbCoups();
             }
 
             if (getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).hasClass("box") &&
@@ -134,10 +140,11 @@ function move(event) {
                 getSquareAt({x: positionPlayerAbs + abcisse, y: positionPlayerOrd + ordonnee}).removeClass("box");
                 getSquareAt({x: positionPlayerAbs + abcisse + abcisse, y: positionPlayerOrd + ordonnee + ordonnee}).addClass("box");
                 //j'avais un problème quand je mettais espaceça incrémentais donc j'ai mis une condition pour ne pas incrémenter
-
                 incrMoves(); //méthode qui incrémente le mouvement
+                states.push(stockState);
+                nbCoups();
             }
-            states.push(stockState);
+
             if (event.key === "ArrowDown") {
                 $(".player").addClass("basPlayer");
             } else if (event.key === "ArrowUp") {
@@ -174,6 +181,7 @@ function allOnTarget() {
         }
     }
     return true;
+    /**return $(.target).length === $(.target.box).length */
 }
 /**
  *permet qu'une fois la touche espace est enfoncé, on passe
@@ -220,19 +228,116 @@ function désincrémenter() {
 function annulerMouvement() {
     if (compteur > 0 && !allOnTarget()) {
         désincrémenter();
-        const playerCourant = getPlayerPosition();
+        const playerActuel = getPlayerPosition();//joueur actuelle
+        const pLayerAncien = states[states.length - 1].playerPosition; //ancienne pos du joueur
+        const boiteAncienne = states[states.length - 1].boxPosition;// ancienne pos boite
+        const deplacement = {x: playerActuel.x - pLayerAncien.x, y: playerActuel.y - pLayerAncien.y};//avoir l'indice du déplacement(direction)
+        const boiteActuelle = {x: playerActuel.x + deplacement.x, y: playerActuel.y + deplacement.y};//boite actuelle
+
+        getSquareAt(pLayerAncien).addClass("player");//on doit déplacer le joueur dans tout les cas
+        getSquareAt(playerActuel).removeClass("player basPlayer hautPlayer droitePlayer gauchePlayer");
+        if (boiteAncienne !== undefined && boiteActuelle !== undefined) {//si il contient une boite on ajoute et supprime
+            if (getSquareAt(boiteAncienne).hasClass("target")) {
+                getSquareAt(boiteAncienne).addClass("box target ");
+                getSquareAt(boiteActuelle).removeClass("box");
+            } else {
+                getSquareAt(boiteAncienne).addClass("box ");
+                getSquareAt(boiteActuelle).removeClass("box");
+            }
+        }
+    }
+    states.pop();
+}
+function nbCoups() {
+    const nbMinimal = levels[niveau].best;
+    if (nbMinimal === undefined) {
+        throw Error("exception");
+    }
+    if (nbMinimal < compteur) {
+        $("#azerty").text("vous avez perdu");
+        $("#world").children()
+            .remove();
+        recommencerUnNiveau();
     }
 }
+function niveauC() {
+    const a = Number(document.getElementById("p").value);
+    if (!a) {
+        throw Error("exception");
+    }
+
+    if (a === 0) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 1) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 2) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 3) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 4) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 5) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+    if (a === 6) {
+        compteur = 0;
+        $("#world").children()
+            .remove();
+        buildLevel(a);
+        $("#level").text(a);//affichage du level
+    }
+}
+
 
 /**
  * quand la page est chargé
  */
 $(() => {
     buildLevel(0);
+    $("#ab").on("click", () => {
+      niveauC();
+    });
+    $("#niv").on("click", () => {
+        if (niveau < 6) {
+            initLevel();
+        }
+    });
     $(document).on("keydown", (event) => {
         move(event);
     });
     $("#recommencer").on("click", recommencerUnNiveau);
+    $("#annuler").on("click", annulerMouvement);
+    nbCoups();
+
     /**
  * // fenetre modal
  */
